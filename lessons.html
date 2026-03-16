@@ -1,61 +1,94 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>โครงงานอิเล็ก | ครู Banana</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>บทเรียน | ครู Banana</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
 </head>
+
 <body class="banana-bg">
-  <header class="navbar">
-    <div class="nav-container">
-      <div class="logo">ครู <span>Banana</span></div>
-      <nav>
-        <a href="index.html" class="active">หน้าแรก</a>
-        <a href="lessons.html">บทเรียน</a>
-        <a href="teaching-dashboard.html">แผนการเรียนการสอน</a>
-        <a href="contact.html">ติดต่อ</a>
-      </nav>
-    </div>
-  </header>
 
-  <section class="projects container">
-    <h1>โครงงานอิเล็กทรอนิกส์ ⚙️</h1>
-    <p class="intro">รวมโครงงานเด่นจากห้องเรียนอิเล็กของครู Banana ที่เน้นการทดลองจริงและประยุกต์ใช้ในชีวิตประจำวัน</p>
+<header class="navbar">
 
-    <div class="lesson-grid">
-      <div class="lesson-card">
-        <img src="https://placehold.co/600x400/f9c846/3c2f2f?text=Smart+Lamp" alt="">
-        <div class="lesson-body">
-          <h3>Smart Lamp ด้วย LDR Sensor</h3>
-          <p>หลอดไฟอัจฉริยะเปิด-ปิดอัตโนมัติเมื่อมีแสง ด้วย Arduino และ LDR</p>
-          <a href="#" class="btn-primary">ดูโค้ด</a>
-        </div>
-      </div>
+<div class="nav-container">
 
-      <div class="lesson-card">
-        <img src="https://placehold.co/600x400/f0e6d2/3c2f2f?text=Sensor+Alarm" alt="">
-        <div class="lesson-body">
-          <h3>Sensor Alarm ระบบแจ้งเตือน</h3>
-          <p>ใช้ Ultrasonic วัดระยะและส่งเสียงแจ้งเตือนเมื่อมีวัตถุเข้าใกล้</p>
-          <a href="#" class="btn-primary">ดูโค้ด</a>
-        </div>
-      </div>
+<div class="logo">ครู <span>Banana</span></div>
 
-      <div class="lesson-card">
-        <img src="https://placehold.co/600x400/fffbea/3c2f2f?text=IoT+Plant+Monitor" alt="">
-        <div class="lesson-body">
-          <h3>IoT Plant Monitor</h3>
-          <p>ระบบตรวจวัดความชื้นดินและควบคุมการรดน้ำอัตโนมัติผ่าน Blynk</p>
-          <a href="#" class="btn-primary">ดูโค้ด</a>
-        </div>
-      </div>
-    </div>
-  </section>
+<nav>
 
-  <footer class="footer">
-    © 2025 ครู Banana สอนอิเล็ก | พัฒนาโครงงานโดยนักเรียนสายเทคโนโลยี
-  </footer>
+<a href="index.html">หน้าแรก</a>
+<a href="lessons.html" class="active">บทเรียน</a>
+<a href="teaching-dashboard.html">ระบบแผนการสอน</a>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<section class="container lessons">
+
+<h1>📚 คลังบทเรียนรายวิชา</h1>
+
+<p class="intro">
+
+เลือกวิชาเพื่อดูใบงานแต่ละสัปดาห์
+
+</p>
+
+<div class="lesson-controls">
+
+<button class="btn-primary" onclick="addCourseFolder()">
+➕ เพิ่มรายวิชา
+</button>
+
+</div>
+
+<div id="lessonContainer" class="course-grid"></div>
+
+</section>
+
+
+
+<!-- Modal เพิ่มสัปดาห์ -->
+
+<div id="weekModal" class="modal">
+
+<div class="modal-content">
+
+<h3>เพิ่มสัปดาห์</h3>
+
+<input id="weekTitle" placeholder="สัปดาห์ที่ 1">
+
+<input id="weekDrive" placeholder="ลิงก์ Google Drive">
+
+<div class="modal-buttons">
+
+<button onclick="saveWeek()" class="btn-primary">บันทึก</button>
+
+<button onclick="closeWeekModal()" class="btn-outline">ยกเลิก</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script src="lessons.js"></script>
+
 </body>
+
 </html>
