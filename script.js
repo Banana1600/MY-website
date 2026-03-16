@@ -97,3 +97,119 @@ navLinks.forEach(link => {
     link.classList.remove("active");
   }
 });
+/* ==========================
+   ระบบจัดการรายวิชา
+========================== */
+
+let courses = [];
+
+function loadCourses() {
+
+  const data = localStorage.getItem("courses");
+
+  if (data) {
+    courses = JSON.parse(data);
+  } else {
+    courses = [];
+  }
+
+}
+
+function saveCourses() {
+
+  localStorage.setItem("courses", JSON.stringify(courses));
+
+}
+
+function renderCourses() {
+
+  const list = document.getElementById("courseList");
+
+  if (!list) return;
+
+  list.innerHTML = "";
+
+  courses.forEach((course, index) => {
+
+    const div = document.createElement("div");
+
+    div.className = "course-card";
+
+    div.innerHTML = `
+      <h3>${course.name}</h3>
+      <p><strong>ผู้สอน:</strong> ${course.teacher}</p>
+      <p>${course.plan}</p>
+
+      <button onclick="deleteCourse(${index})" class="btn-outline">
+        ลบ
+      </button>
+    `;
+
+    list.appendChild(div);
+
+  });
+
+}
+
+function addCourse() {
+
+  const name = document.getElementById("courseName").value;
+  const teacher = document.getElementById("courseTeacher").value;
+  const plan = document.getElementById("coursePlan").value;
+
+  if (name.trim() === "") {
+    alert("กรอกชื่อรายวิชาก่อน");
+    return;
+  }
+
+  const newCourse = {
+    name: name,
+    teacher: teacher,
+    plan: plan
+  };
+
+  courses.push(newCourse);
+
+  saveCourses();
+
+  renderCourses();
+
+  closeAddCourse();
+
+  document.getElementById("courseName").value = "";
+  document.getElementById("courseTeacher").value = "";
+  document.getElementById("coursePlan").value = "";
+
+}
+
+function deleteCourse(index) {
+
+  courses.splice(index, 1);
+
+  saveCourses();
+
+  renderCourses();
+
+}
+
+function openAddCourse() {
+
+  document.getElementById("courseModal").style.display = "flex";
+
+}
+
+function closeAddCourse() {
+
+  document.getElementById("courseModal").style.display = "none";
+
+}
+
+
+/* โหลดข้อมูลตอนเปิดหน้า */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  loadCourses();
+  renderCourses();
+
+});

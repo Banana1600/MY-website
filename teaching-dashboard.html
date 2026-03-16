@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ระบบจัดการการสอน | ครู Banana</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body class="banana-bg">
+
+<header class="navbar">
+<div class="nav-container">
+
+<div class="logo">ครู <span>Banana</span></div>
+
+<nav>
+<a href="index.html">หน้าแรก</a>
+<a href="lessons.html">บทเรียน</a>
+<a href="projects.html">โครงงาน</a>
+<a href="teaching-dashboard.html" class="active">ระบบสอน</a>
+</nav>
+
+</div>
+</header>
+
+
+<section class="container lessons">
+
+<h1>📚 ระบบจัดการการสอน</h1>
+
+<p class="intro">
+เพิ่มรายวิชา แผนการสอน ตารางสอน และลิงก์เอกสาร Google Drive
+</p>
+
+<button class="btn-primary" onclick="openAddCourse()">➕ เพิ่มรายวิชา</button>
+
+<div id="courseList" class="lesson-grid"></div>
+
+</section>
+
+
+<section class="container">
+
+<h2>📅 ตารางสอน</h2>
+
+<div id="calendar"></div>
+
+</section>
+
+
+<section class="container">
+
+<h2>📤 Export ข้อมูล</h2>
+
+<button class="btn-outline" onclick="exportPDF()">Export PDF</button>
+
+<button class="btn-outline" onclick="exportCSV()">Export Excel</button>
+
+<button class="btn-outline" onclick="exportDOC()">Export Word</button>
+
+</section>
+
+
+
+<div id="courseModal" class="modal">
+
+<div class="modal-content">
+
+<h2>เพิ่มรายวิชา</h2>
+
+<input id="courseName" placeholder="ชื่อรายวิชา">
+
+<input id="courseTeacher" placeholder="ผู้สอน">
+
+<textarea id="coursePlan" placeholder="แผนการสอน"></textarea>
+
+<input id="courseDrive" placeholder="ลิงก์ Google Drive">
+
+<button onclick="addCourse()" class="btn-primary">บันทึก</button>
+
+<button onclick="closeAddCourse()" class="btn-outline">ยกเลิก</button>
+
+</div>
+
+</div>
+
+
+<script src="dashboard.js"></script>
+
+</body>
+</html>
