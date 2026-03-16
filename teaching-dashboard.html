@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -8,28 +10,45 @@
 
 <link rel="stylesheet" href="style.css">
 
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+<!-- FullCalendar -->
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- ICON -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
 </head>
+
 
 <body class="banana-bg">
 
+
+<!-- NAVBAR -->
+
 <header class="navbar">
+
 <div class="nav-container">
 
 <div class="logo">ครู <span>Banana</span></div>
 
 <nav>
+
 <a href="index.html">หน้าแรก</a>
 <a href="lessons.html">บทเรียน</a>
 <a href="projects.html">โครงงาน</a>
-<a href="teaching-dashboard.html" class="active">ระบบสอน</a>
+<a href="teaching-dashboard.html" class="active">ระบบแผนการสอน</a>
+
 </nav>
 
 </div>
+
 </header>
 
+
+
+<!-- SECTION รายวิชา -->
 
 <section class="container lessons">
 
@@ -39,12 +58,17 @@
 เพิ่มรายวิชา แผนการสอน ตารางสอน และลิงก์เอกสาร Google Drive
 </p>
 
-<button class="btn-primary" onclick="openAddCourse()">➕ เพิ่มรายวิชา</button>
+<button class="btn-primary" id="addCourseBtn">
+➕ เพิ่มรายวิชา
+</button>
 
 <div id="courseList" class="lesson-grid"></div>
 
 </section>
 
+
+
+<!-- CALENDAR -->
 
 <section class="container">
 
@@ -55,19 +79,28 @@
 </section>
 
 
+
+<!-- EXPORT -->
+
 <section class="container">
 
 <h2>📤 Export ข้อมูล</h2>
 
-<button class="btn-outline" onclick="exportPDF()">Export PDF</button>
+<div class="export-buttons">
 
-<button class="btn-outline" onclick="exportCSV()">Export Excel</button>
+<button class="btn-outline" onclick="exportPDF()">PDF</button>
 
-<button class="btn-outline" onclick="exportDOC()">Export Word</button>
+<button class="btn-outline" onclick="exportCSV()">Excel</button>
+
+<button class="btn-outline" onclick="exportDOC()">Word</button>
+
+</div>
 
 </section>
 
 
+
+<!-- MODAL เพิ่มรายวิชา -->
 
 <div id="courseModal" class="modal">
 
@@ -75,24 +108,45 @@
 
 <h2>เพิ่มรายวิชา</h2>
 
-<input id="courseName" placeholder="ชื่อรายวิชา">
+<input class="form-input" id="courseCode" placeholder="รหัสวิชา">
 
-<input id="courseTeacher" placeholder="ผู้สอน">
+<input class="form-input" id="courseName" placeholder="ชื่อรายวิชา">
 
-<textarea id="coursePlan" placeholder="แผนการสอน"></textarea>
+<input class="form-input" id="courseTeacher" placeholder="ผู้สอน">
 
-<input id="courseDrive" placeholder="ลิงก์ Google Drive">
+<textarea class="form-input" id="coursePlan" placeholder="แผนการสอน"></textarea>
 
-<button onclick="addCourse()" class="btn-primary">บันทึก</button>
+<input class="form-input" id="courseDrive" placeholder="ลิงก์ Google Drive">
 
-<button onclick="closeAddCourse()" class="btn-outline">ยกเลิก</button>
+<label class="upload-label">
+📄 อัปโหลดไฟล์แผนการสอน
+</label>
+
+<input type="file"
+id="courseFile"
+accept=".pdf,.doc,.docx">
+
+
+<div class="modal-buttons">
+
+<button id="saveCourseBtn" class="btn-primary">
+บันทึก
+</button>
+
+<button id="cancelCourseBtn" class="btn-outline">
+ยกเลิก
+</button>
 
 </div>
 
 </div>
+
+</div>
+
 
 
 <script src="dashboard.js"></script>
 
 </body>
+
 </html>

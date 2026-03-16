@@ -1,11 +1,29 @@
 let courses = JSON.parse(localStorage.getItem("courses")) || [];
 
 
+/* =========================
+   แสดงรายวิชา
+========================= */
+
 function renderCourses(){
 
-const list=document.getElementById("courseList");
+const list = document.getElementById("courseList");
+
+if(!list) return;
 
 list.innerHTML="";
+
+if(courses.length === 0){
+
+list.innerHTML = `
+<p class="empty-course">
+ยังไม่มีรายวิชา กด "เพิ่มรายวิชา"
+</p>
+`;
+
+return;
+
+}
 
 courses.forEach((course,index)=>{
 
@@ -15,15 +33,33 @@ div.className="course-card";
 
 div.innerHTML=`
 
-<h3>${course.name}</h3>
+<h3>${course.code || ""} ${course.name || ""}</h3>
 
-<p><b>ผู้สอน:</b> ${course.teacher}</p>
+<p><b>ผู้สอน:</b> ${course.teacher || "-"}</p>
 
-<p>${course.plan}</p>
+<p>${course.plan || ""}</p>
 
-<a href="${course.drive}" target="_blank">📂 เปิด Google Drive</a>
+<div class="course-buttons">
 
-<button onclick="deleteCourse(${index})" class="btn-outline">ลบ</button>
+${course.drive ? `
+<a href="${course.drive}" target="_blank" class="drive-btn">
+<i class="fa-brands fa-google-drive"></i>
+Google Drive
+</a>
+` : ""}
+
+${course.file ? `
+<a href="${course.file}" target="_blank" class="file-btn">
+<i class="fa-solid fa-file"></i>
+แผนการสอน
+</a>
+` : ""}
+
+<button onclick="deleteCourse(${index})" class="btn-outline">
+ลบ
+</button>
+
+</div>
 
 `;
 
@@ -34,18 +70,47 @@ list.appendChild(div);
 }
 
 
+
+/* =========================
+   เพิ่มรายวิชา
+========================= */
+
 function addCourse(){
 
+const code=document.getElementById("courseCode").value;
 const name=document.getElementById("courseName").value;
-
 const teacher=document.getElementById("courseTeacher").value;
-
 const plan=document.getElementById("coursePlan").value;
-
 const drive=document.getElementById("courseDrive").value;
 
+const fileInput=document.getElementById("courseFile");
 
-courses.push({name,teacher,plan,drive});
+let fileURL="";
+
+if(fileInput.files.length>0){
+
+const file=fileInput.files[0];
+
+fileURL=URL.createObjectURL(file);
+
+}
+
+if(!name){
+
+alert("กรอกชื่อรายวิชา");
+
+return;
+
+}
+
+courses.push({
+code,
+name,
+teacher,
+plan,
+drive,
+file:fileURL
+});
 
 localStorage.setItem("courses",JSON.stringify(courses));
 
@@ -55,6 +120,11 @@ closeAddCourse();
 
 }
 
+
+
+/* =========================
+   ลบรายวิชา
+========================= */
 
 function deleteCourse(i){
 
@@ -67,11 +137,22 @@ renderCourses();
 }
 
 
+
+/* =========================
+   เปิด modal
+========================= */
+
 function openAddCourse(){
 
 document.getElementById("courseModal").style.display="flex";
 
 }
+
+
+
+/* =========================
+   ปิด modal
+========================= */
 
 function closeAddCourse(){
 
@@ -80,11 +161,16 @@ document.getElementById("courseModal").style.display="none";
 }
 
 
-document.addEventListener("DOMContentLoaded",function(){
 
-renderCourses();
+/* =========================
+   Calendar
+========================= */
+
+function loadCalendar(){
 
 var calendarEl=document.getElementById('calendar');
+
+if(!calendarEl) return;
 
 var calendar=new FullCalendar.Calendar(calendarEl,{
 initialView:'dayGridMonth'
@@ -92,11 +178,13 @@ initialView:'dayGridMonth'
 
 calendar.render();
 
-});
+}
 
 
 
-/* Export PDF */
+/* =========================
+   Export PDF
+========================= */
 
 function exportPDF(){
 
@@ -115,14 +203,19 @@ a.click();
 }
 
 
-/* Export Excel */
+
+/* =========================
+   Export Excel
+========================= */
 
 function exportCSV(){
 
-let csv="ชื่อวิชา,ผู้สอน,แผนการสอน\n";
+let csv="รหัสวิชา,ชื่อวิชา,ผู้สอน,แผนการสอน\n";
 
 courses.forEach(c=>{
-csv+=`${c.name},${c.teacher},${c.plan}\n`;
+
+csv+=`${c.code},${c.name},${c.teacher},${c.plan}\n`;
+
 });
 
 let blob=new Blob([csv]);
@@ -138,7 +231,10 @@ a.click();
 }
 
 
-/* Export Word */
+
+/* =========================
+   Export Word
+========================= */
 
 function exportDOC(){
 
@@ -146,10 +242,9 @@ let content="";
 
 courses.forEach(c=>{
 
+content+=`รหัสวิชา: ${c.code}\n`;
 content+=`ชื่อวิชา: ${c.name}\n`;
-
 content+=`ผู้สอน: ${c.teacher}\n`;
-
 content+=`แผนการสอน: ${c.plan}\n\n`;
 
 });
@@ -165,3 +260,50 @@ a.download="courses.doc";
 a.click();
 
 }
+
+
+
+/* =========================
+   โหลดระบบ
+========================= */
+
+document.addEventListener("DOMContentLoaded",function(){
+
+renderCourses();
+
+loadCalendar();
+
+
+/* ปุ่มเปิด modal */
+
+const addBtn=document.getElementById("addCourseBtn");
+
+if(addBtn){
+
+addBtn.addEventListener("click",openAddCourse);
+
+}
+
+
+/* ปุ่มบันทึก */
+
+const saveBtn=document.getElementById("saveCourseBtn");
+
+if(saveBtn){
+
+saveBtn.addEventListener("click",addCourse);
+
+}
+
+
+/* ปุ่มยกเลิก */
+
+const cancelBtn=document.getElementById("cancelCourseBtn");
+
+if(cancelBtn){
+
+cancelBtn.addEventListener("click",closeAddCourse);
+
+}
+
+});
