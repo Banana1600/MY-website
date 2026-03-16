@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ระบบข้อสอบ | ครู Banana</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+</head>
+
+
+<body class="banana-bg">
+
+<header class="navbar">
+
+<div class="nav-container">
+
+<div class="logo">ครู <span>Banana</span></div>
+
+<nav>
+
+<a href="index.html">หน้าแรก</a>
+<a href="lessons.html">บทเรียน</a>
+<a href="exam.html" class="active">ข้อสอบ</a>
+<a href="teaching-dashboard.html">แผนการสอน</a>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<section class="container lessons">
+
+<h1>📝 ระบบข้อสอบ</h1>
+
+<p class="intro">
+
+จัดการข้อสอบกลางภาค และปลายภาค
+
+</p>
+
+<button class="btn-primary" onclick="addExamCourse()">
+➕ เพิ่มรายวิชา
+</button>
+
+<div id="examContainer" class="course-grid"></div>
+
+</section>
+
+
+
+<!-- Modal เพิ่มข้อสอบ -->
+
+<div id="examModal" class="modal">
+
+<div class="modal-content">
+
+<h3>เพิ่มข้อสอบ</h3>
+
+<select id="examType">
+
+<option value="mid">กลางภาค</option>
+<option value="final">ปลายภาค</option>
+
+</select>
+
+<input id="examTitle" placeholder="ชื่อข้อสอบ">
+
+<input id="examDrive" placeholder="ลิงก์ Google Drive">
+
+<div class="modal-buttons">
+
+<button onclick="saveExam()" class="btn-primary">
+บันทึก
+</button>
+
+<button onclick="closeExamModal()" class="btn-outline">
+ยกเลิก
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script src="exam.js"></script>
+
+</body>
+</html>
