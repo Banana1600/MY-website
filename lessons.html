@@ -29,7 +29,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 <a href="index.html">หน้าแรก</a>
 <a href="lessons.html" class="active">บทเรียน</a>
-<a href="exam.html" class="active">ข้อสอบ</a>
+<a href="exam.html">ข้อสอบ</a>
 <a href="teaching-dashboard.html">ระบบแผนการสอน</a>
 
 </nav>
@@ -44,14 +44,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 <h1>📚 คลังบทเรียนรายวิชา</h1>
 
 <p class="intro">
-
 เลือกวิชาเพื่อดูใบงานแต่ละสัปดาห์
-
 </p>
 
 <div class="lesson-controls">
 
-<button class="btn-primary" onclick="addCourseFolder()">
+<button class="btn-primary" onclick="openCourseModal()">
 ➕ เพิ่มรายวิชา
 </button>
 
@@ -63,33 +61,99 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 
 
-<!-- Modal เพิ่มสัปดาห์ -->
+<!-- Modal เพิ่มรายวิชา -->
+<div id="courseModal" class="modal">
 
+<div class="modal-content">
+
+<h3>เพิ่มรายวิชา</h3>
+
+<input id="courseCodeInput" placeholder="รหัสวิชา เช่น 3101-2001">
+
+<input id="courseNameInput" placeholder="ชื่อรายวิชา เช่น Arduino">
+
+<select id="courseLevel">
+
+<option value="">-- เลือกระดับชั้น --</option>
+
+<option value="ปวช.1">ปวช.1</option>
+<option value="ปวช.2">ปวช.2</option>
+<option value="ปวช.3">ปวช.3</option>
+
+<option value="ปวส.1">ปวส.1</option>
+<option value="ปวส.2">ปวส.2</option>
+
+</select>
+
+<div class="modal-buttons">
+
+<button onclick="saveCourse()" class="btn-primary">
+บันทึก
+</button>
+
+<button onclick="closeCourseModal()" class="btn-outline">
+ยกเลิก
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- Modal เพิ่มสัปดาห์ -->
 <div id="weekModal" class="modal">
 
 <div class="modal-content">
 
 <h3>เพิ่มสัปดาห์</h3>
 
-<input id="weekTitle" placeholder="สัปดาห์ที่ 1">
+<select id="weekTitle">
+
+<option value="">-- เลือกสัปดาห์ --</option>
+
+<option value="สัปดาห์ที่ 1">สัปดาห์ที่ 1</option>
+<option value="สัปดาห์ที่ 2">สัปดาห์ที่ 2</option>
+<option value="สัปดาห์ที่ 3">สัปดาห์ที่ 3</option>
+<option value="สัปดาห์ที่ 4">สัปดาห์ที่ 4</option>
+<option value="สัปดาห์ที่ 5">สัปดาห์ที่ 5</option>
+<option value="สัปดาห์ที่ 6">สัปดาห์ที่ 6</option>
+<option value="สัปดาห์ที่ 7">สัปดาห์ที่ 7</option>
+<option value="สัปดาห์ที่ 8">สัปดาห์ที่ 8</option>
+<option value="สัปดาห์ที่ 9">สัปดาห์ที่ 9</option>
+<option value="สัปดาห์ที่ 10">สัปดาห์ที่ 10</option>
+<option value="สัปดาห์ที่ 11">สัปดาห์ที่ 11</option>
+<option value="สัปดาห์ที่ 12">สัปดาห์ที่ 12</option>
+<option value="สัปดาห์ที่ 13">สัปดาห์ที่ 13</option>
+<option value="สัปดาห์ที่ 14">สัปดาห์ที่ 14</option>
+<option value="สัปดาห์ที่ 15">สัปดาห์ที่ 15</option>
+<option value="สัปดาห์ที่ 16">สัปดาห์ที่ 16</option>
+<option value="สัปดาห์ที่ 17">สัปดาห์ที่ 17</option>
+<option value="สัปดาห์ที่ 18">สัปดาห์ที่ 18</option>
+
+</select>
 
 <input id="weekDrive" placeholder="ลิงก์ Google Drive">
 
 <div class="modal-buttons">
 
-<button onclick="saveWeek()" class="btn-primary">บันทึก</button>
+<button onclick="saveWeek()" class="btn-primary">
+บันทึก
+</button>
 
-<button onclick="closeWeekModal()" class="btn-outline">ยกเลิก</button>
+<button onclick="closeWeekModal()" class="btn-outline">
+ยกเลิก
+</button>
 
 </div>
 
 </div>
 
 </div>
-
 
 <script src="lessons.js"></script>
 
 </body>
-
 </html>
