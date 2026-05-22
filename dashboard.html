@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | ครู Banana</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">ครู <span>Banana</span></div>
+      <nav>
+        <a href="index.html">หน้าแรก</a>
+        <a href="dashboard.html" class="active">Dashboard</a>
+        <a href="lessons.html">บทเรียน</a>
+        <a href="exam.html">ข้อสอบ</a>
+        <a href="teaching.html">แผนการสอน</a>
+        <a href="media.html">สื่อการสอน</a>
+        <a href="manage-users.html" id="manageUsersLink" style="display:none;">จัดการผู้ใช้</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="page-header">
+      <h1>📊 Dashboard</h1>
+      <p id="welcomeText">ยินดีต้อนรับ</p>
+    </div>
+
+    <div class="dashboard-topbar">
+      <button class="btn-outline" onclick="logout()">ออกจากระบบ</button>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="stat-card">
+        <h3>📚 รายวิชา</h3>
+        <div class="stat-number" id="statCourses">0</div>
+      </div>
+
+      <div class="stat-card">
+        <h3>📝 ข้อสอบ</h3>
+        <div class="stat-number" id="statExams">0</div>
+      </div>
+
+      <div class="stat-card">
+        <h3>📄 แผนการสอน</h3>
+        <div class="stat-number" id="statPlans">0</div>
+      </div>
+
+      <div class="stat-card">
+        <h3>🎥 สื่อการสอน</h3>
+        <div class="stat-number" id="statMedia">0</div>
+      </div>
+
+      <div class="stat-card">
+        <h3>👥 ผู้ใช้</h3>
+        <div class="stat-number" id="statUsers">0</div>
+      </div>
+    </div>
+
+    <div class="card-grid dashboard-links">
+      <div class="card">
+        <div class="card-title">บทเรียน</div>
+        <p>จัดการรายวิชาและข้อมูลการเรียน</p>
+        <a href="lessons.html" class="btn-primary">เปิดบทเรียน</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">ข้อสอบ</div>
+        <p>จัดการกลางภาคและปลายภาค</p>
+        <a href="exam.html" class="btn-primary">เปิดข้อสอบ</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">แผนการสอน</div>
+        <p>แนบเอกสารการสอน</p>
+        <a href="teaching.html" class="btn-primary">เปิดแผนการสอน</a>
+      </div>
+
+      <div class="card">
+        <div class="card-title">สื่อการสอน</div>
+        <p>รวมวิดีโอ เอกสาร และลิงก์</p>
+        <a href="media.html" class="btn-primary">เปิดสื่อการสอน</a>
+      </div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+  <script>
+    requireLogin();
+
+    function renderDashboard() {
+      const user = getCurrentUser();
+      const stats = getDashboardStats();
+
+      document.getElementById("welcomeText").textContent =
+        `ยินดีต้อนรับ ${user?.name || "ผู้ใช้งาน"} | สิทธิ์: ${getRoleText(user?.role)}`;
+
+      document.getElementById("statCourses").textContent = stats.courses;
+      document.getElementById("statExams").textContent = stats.exams;
+      document.getElementById("statPlans").textContent = stats.plans;
+      document.getElementById("statMedia").textContent = stats.media;
+      document.getElementById("statUsers").textContent = stats.users;
+
+      if (user && user.role === "teacher") {
+        document.getElementById("manageUsersLink").style.display = "inline-block";
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", renderDashboard);
+  </script>
+
+</body>
+</html>

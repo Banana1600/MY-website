@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>จัดการผู้ใช้ | ครู Banana</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">ครู <span>Banana</span></div>
+      <nav>
+        <a href="index.html">หน้าแรก</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="lessons.html">บทเรียน</a>
+        <a href="exam.html">ข้อสอบ</a>
+        <a href="teaching.html">แผนการสอน</a>
+        <a href="media.html">สื่อการสอน</a>
+        <a href="manage-users.html" class="active">จัดการผู้ใช้</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="page-header">
+      <h1>👥 จัดการผู้ใช้</h1>
+      <p>เพิ่ม ลบ และดูสิทธิ์การใช้งานของผู้ใช้ในระบบ</p>
+    </div>
+
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title">เพิ่มผู้ใช้ใหม่</div>
+
+      <div class="action-bar">
+        <input id="newName" type="text" placeholder="ชื่อ-นามสกุล">
+        <input id="newUsername" type="text" placeholder="ชื่อผู้ใช้">
+        <input id="newPassword" type="password" placeholder="รหัสผ่าน">
+        <select id="newRole">
+          <option value="teacher">ครู</option>
+          <option value="student">นักเรียน</option>
+        </select>
+        <button class="btn-primary" onclick="handleAddUser()">เพิ่มผู้ใช้</button>
+      </div>
+    </div>
+
+    <div id="userList" class="card-grid"></div>
+  </section>
+
+  <script src="app.js"></script>
+  <script>
+    requireRole("teacher");
+
+    function handleAddUser() {
+      const name = document.getElementById("newName").value.trim();
+      const username = document.getElementById("newUsername").value.trim();
+      const password = document.getElementById("newPassword").value.trim();
+      const role = document.getElementById("newRole").value;
+
+      if (!name || !username || !password || !role) {
+        alert("กรุณากรอกข้อมูลให้ครบ");
+        return;
+      }
+
+      const result = addUser({ name, username, password, role });
+
+      if (!result.success) {
+        alert(result.message);
+        return;
+      }
+
+      document.getElementById("newName").value = "";
+      document.getElementById("newUsername").value = "";
+      document.getElementById("newPassword").value = "";
+
+      renderUsers();
+    }
+
+    function handleDeleteUser(id) {
+      if (!confirm("ต้องการลบผู้ใช้นี้หรือไม่")) return;
+      deleteUser(id);
+      renderUsers();
+    }
+
+    function handleEditUser(id) {
+      const users = getUsers();
+      const user = users.find(u => u.id === id);
+      if (!user) return;
+
+      const newName = prompt("แก้ไขชื่อ", user.name);
+      if (!newName) return;
+
+      const newPassword = prompt("แก้ไขรหัสผ่าน", user.password);
+      if (!newPassword) return;
+
+      const newRole = prompt("แก้ไขสิทธิ์: teacher หรือ student", user.role);
+      if (!newRole) return;
+
+      updateUser(id, {
+        name: newName.trim(),
+        password: newPassword.trim(),
+        role: newRole.trim()
+      });
+
+      renderUsers();
+    }
+
+    function renderUsers() {
+      const users = getUsers();
+      const userList = document.getElementById("userList");
+
+      let html = "";
+
+      if (users.length === 0) {
+        html = `<div class="empty">ยังไม่มีผู้ใช้</div>`;
+      } else {
+        users.forEach(user => {
+          html += `
+            <div class="card">
+              <div class="card-title">${user.name}</div>
+              <div class="tag">${getRoleText(user.role)}</div>
+
+              <p style="margin-top:10px;">ชื่อผู้ใช้: ${user.username}</p>
+
+              <div class="btn-group">
+                <button class="btn-outline" onclick="handleEditUser(${user.id})">แก้ไข</button>
+                <button class="btn-delete" onclick="handleDeleteUser(${user.id})">ลบ</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      userList.innerHTML = html;
+    }
+
+    document.addEventListener("DOMContentLoaded", renderUsers);
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบ | ครู Banana</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">ครู <span>Banana</span></div>
+      <nav>
+        <a href="index.html">หน้าแรก</a>
+        <a href="login.html" class="active">เข้าสู่ระบบ</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="container">
+    <div class="login-card">
+      <h1>🔐 เข้าสู่ระบบ</h1>
+      <p class="login-subtitle">Banana Classroom</p>
+
+      <input id="username" type="text" placeholder="ชื่อผู้ใช้">
+      <input id="password" type="password" placeholder="รหัสผ่าน">
+
+      <button class="btn-primary login-btn" onclick="handleLogin()">เข้าสู่ระบบ</button>
+
+      <div class="login-help">
+        <p><strong>บัญชีครู</strong> username: banana | password: 1234</p>
+        <p><strong>บัญชีนักเรียน</strong> username: student1 | password: 1234</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+  <script>
+    if (isLoggedIn()) {
+      window.location.href = "dashboard.html";
+    }
+
+    function handleLogin() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (!username || !password) {
+        alert("กรุณากรอกชื่อผู้ใช้และรหัสผ่าน");
+        return;
+      }
+
+      const success = login(username, password);
+
+      if (!success) {
+        alert("ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง");
+        return;
+      }
+
+      window.location.href = "dashboard.html";
+    }
+  </script>
+
+</body>
+</html>
