@@ -1,159 +1,116 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>บทเรียน | ครู Banana</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายวิชา | ครู Banana</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
-<body class="banana-bg">
+<body>
 
-<header class="navbar">
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        ครู <span>Banana</span>
+      </div>
 
-<div class="nav-container">
+      <nav>
+        <a href="index.html">หน้าแรก</a>
+        <a href="lessons.html" class="active">บทเรียน</a>
+        <a href="exam.html">ข้อสอบ</a>
+        <a href="teaching.html">แผนการสอน</a>
+        <a href="media.html">สื่อการสอน</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="logo">ครู <span>Banana</span></div>
+  <!-- PAGE -->
+  <section class="container">
 
-<nav>
+    <div class="page-header">
+      <h1>📚 รายวิชา</h1>
+      <p>จัดการรายวิชาและสัปดาห์การเรียน</p>
+    </div>
 
-<a href="index.html">หน้าแรก</a>
-<a href="lessons.html" class="active">บทเรียน</a>
-<a href="exam.html">ข้อสอบ</a>
-<a href="teaching-dashboard.html">ระบบแผนการสอน</a>
+    <div class="action-bar">
+      <button class="btn-primary" onclick="addCourse()">➕ เพิ่มรายวิชา</button>
+    </div>
 
-</nav>
+    <div id="lessonContainer" class="card-grid"></div>
 
-</div>
+  </section>
 
-</header>
+  <script src="app.js"></script>
+  <script>
+    function renderLessons() {
+      const container = document.getElementById("lessonContainer");
+      let html = "";
 
+      if (courses.length === 0) {
+        html = `<div class="empty">ยังไม่มีรายวิชา</div>`;
+      } else {
+        courses.forEach((c, i) => {
+          html += `
+            <div class="card">
+              <div class="card-title">${c.code} - ${c.name}</div>
+              <div class="tag">${c.level}</div>
 
-<section class="container lessons">
+              <div class="btn-group">
+                <button class="btn-primary" onclick="editCourse(${i})">แก้ไข</button>
+                <button class="btn-delete" onclick="deleteCourse(${i})">ลบ</button>
+              </div>
+            </div>
+          `;
+        });
+      }
 
-<h1>📚 คลังบทเรียนรายวิชา</h1>
+      container.innerHTML = html;
+    }
 
-<p class="intro">
-เลือกวิชาเพื่อดูใบงานแต่ละสัปดาห์
-</p>
+    function addCourse() {
+      const code = prompt("รหัสวิชา");
+      if (!code) return;
 
-<div class="lesson-controls">
+      const name = prompt("ชื่อวิชา");
+      if (!name) return;
 
-<button class="btn-primary" onclick="openCourseModal()">
-➕ เพิ่มรายวิชา
-</button>
+      const level = prompt("ระดับชั้น เช่น ปวช.1 / ปวช.2 / ปวส.1");
+      if (!level) return;
 
-</div>
+      courses.push({ code, name, level });
+      saveCourses();
+      renderLessons();
+    }
 
-<div id="lessonContainer" class="course-grid"></div>
+    function editCourse(index) {
+      const current = courses[index];
 
-</section>
+      const code = prompt("แก้ไขรหัสวิชา", current.code);
+      if (!code) return;
 
+      const name = prompt("แก้ไขชื่อวิชา", current.name);
+      if (!name) return;
 
+      const level = prompt("แก้ไขระดับชั้น", current.level);
+      if (!level) return;
 
-<!-- Modal เพิ่มรายวิชา -->
-<div id="courseModal" class="modal">
+      courses[index] = { ...current, code, name, level };
+      saveCourses();
+      renderLessons();
+    }
 
-<div class="modal-content">
+    function deleteCourse(index) {
+      if (!confirm("ต้องการลบรายวิชานี้หรือไม่")) return;
+      courses.splice(index, 1);
+      saveCourses();
+      renderLessons();
+    }
 
-<h3>เพิ่มรายวิชา</h3>
-
-<input id="courseCodeInput" placeholder="รหัสวิชา เช่น 3101-2001">
-
-<input id="courseNameInput" placeholder="ชื่อรายวิชา เช่น Arduino">
-
-<select id="courseLevel">
-
-<option value="">-- เลือกระดับชั้น --</option>
-
-<option value="ปวช.1">ปวช.1</option>
-<option value="ปวช.2">ปวช.2</option>
-<option value="ปวช.3">ปวช.3</option>
-
-<option value="ปวส.1">ปวส.1</option>
-<option value="ปวส.2">ปวส.2</option>
-
-</select>
-
-<div class="modal-buttons">
-
-<button onclick="saveCourse()" class="btn-primary">
-บันทึก
-</button>
-
-<button onclick="closeCourseModal()" class="btn-outline">
-ยกเลิก
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<!-- Modal เพิ่มสัปดาห์ -->
-<div id="weekModal" class="modal">
-
-<div class="modal-content">
-
-<h3>เพิ่มสัปดาห์</h3>
-
-<select id="weekTitle">
-
-<option value="">-- เลือกสัปดาห์ --</option>
-
-<option value="สัปดาห์ที่ 1">สัปดาห์ที่ 1</option>
-<option value="สัปดาห์ที่ 2">สัปดาห์ที่ 2</option>
-<option value="สัปดาห์ที่ 3">สัปดาห์ที่ 3</option>
-<option value="สัปดาห์ที่ 4">สัปดาห์ที่ 4</option>
-<option value="สัปดาห์ที่ 5">สัปดาห์ที่ 5</option>
-<option value="สัปดาห์ที่ 6">สัปดาห์ที่ 6</option>
-<option value="สัปดาห์ที่ 7">สัปดาห์ที่ 7</option>
-<option value="สัปดาห์ที่ 8">สัปดาห์ที่ 8</option>
-<option value="สัปดาห์ที่ 9">สัปดาห์ที่ 9</option>
-<option value="สัปดาห์ที่ 10">สัปดาห์ที่ 10</option>
-<option value="สัปดาห์ที่ 11">สัปดาห์ที่ 11</option>
-<option value="สัปดาห์ที่ 12">สัปดาห์ที่ 12</option>
-<option value="สัปดาห์ที่ 13">สัปดาห์ที่ 13</option>
-<option value="สัปดาห์ที่ 14">สัปดาห์ที่ 14</option>
-<option value="สัปดาห์ที่ 15">สัปดาห์ที่ 15</option>
-<option value="สัปดาห์ที่ 16">สัปดาห์ที่ 16</option>
-<option value="สัปดาห์ที่ 17">สัปดาห์ที่ 17</option>
-<option value="สัปดาห์ที่ 18">สัปดาห์ที่ 18</option>
-
-</select>
-
-<input id="weekDrive" placeholder="ลิงก์ Google Drive">
-
-<div class="modal-buttons">
-
-<button onclick="saveWeek()" class="btn-primary">
-บันทึก
-</button>
-
-<button onclick="closeWeekModal()" class="btn-outline">
-ยกเลิก
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<script src="lessons.js"></script>
+    document.addEventListener("DOMContentLoaded", renderLessons);
+  </script>
 
 </body>
 </html>

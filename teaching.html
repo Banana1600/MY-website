@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แผนการสอน | ครู Banana</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        ครู <span>Banana</span>
+      </div>
+
+      <nav>
+        <a href="index.html">หน้าแรก</a>
+        <a href="lessons.html">บทเรียน</a>
+        <a href="exam.html">ข้อสอบ</a>
+        <a href="teaching.html" class="active">แผนการสอน</a>
+        <a href="media.html">สื่อการสอน</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- PAGE -->
+  <section class="container">
+
+    <div class="page-header">
+      <h1>📄 แผนการสอน</h1>
+      <p>แนบลิงก์แผนการสอนของแต่ละรายวิชา</p>
+    </div>
+
+    <div class="action-bar">
+      <select id="courseSelect"></select>
+      <input id="planTitle" type="text" placeholder="ชื่อแผน เช่น แผนการสอน ภาคเรียน 1/2569">
+      <input id="planLink" type="text" placeholder="ลิงก์ Google Drive">
+      <button class="btn-primary" onclick="addPlan()">บันทึก</button>
+    </div>
+
+    <div id="planList" class="card-grid"></div>
+
+  </section>
+
+  <script src="app.js"></script>
+  <script>
+    let plans = JSON.parse(localStorage.getItem("plans")) || [];
+
+    function loadCourseOptions() {
+      const select = document.getElementById("courseSelect");
+      select.innerHTML = "";
+
+      if (courses.length === 0) {
+        select.innerHTML = `<option value="">ยังไม่มีรายวิชา</option>`;
+        return;
+      }
+
+      courses.forEach(course => {
+        select.innerHTML += `
+          <option value="${course.code} - ${course.name}">
+            ${course.code} - ${course.name}
+          </option>
+        `;
+      });
+    }
+
+    function addPlan() {
+      const course = document.getElementById("courseSelect").value;
+      const title = document.getElementById("planTitle").value.trim();
+      const link = document.getElementById("planLink").value.trim();
+
+      if (!course || !title || !link) {
+        alert("กรุณากรอกข้อมูลให้ครบ");
+        return;
+      }
+
+      plans.push({ course, title, link });
+      localStorage.setItem("plans", JSON.stringify(plans));
+
+      document.getElementById("planTitle").value = "";
+      document.getElementById("planLink").value = "";
+
+      renderPlans();
+    }
+
+    function deletePlan(index) {
+      if (!confirm("ต้องการลบแผนการสอนนี้หรือไม่")) return;
+      plans.splice(index, 1);
+      localStorage.setItem("plans", JSON.stringify(plans));
+      renderPlans();
+    }
+
+    function renderPlans() {
+      const list = document.getElementById("planList");
+      let html = "";
+
+      if (plans.length === 0) {
+        html = `<div class="empty">ยังไม่มีแผนการสอน</div>`;
+      } else {
+        plans.forEach((plan, index) => {
+          html += `
+            <div class="card">
+              <div class="card-title">${plan.course}</div>
+              <div class="tag">${plan.title}</div>
+
+              <div class="btn-group">
+                <a href="${plan.link}" target="_blank" class="btn-primary">เปิดแผน</a>
+                <button class="btn-delete" onclick="deletePlan(${index})">ลบ</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      list.innerHTML = html;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadCourseOptions();
+      renderPlans();
+    });
+  </script>
+
+</body>
+</html>

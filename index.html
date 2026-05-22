@@ -2,27 +2,20 @@
 <html lang="th">
 
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ครู Banana | สอนสาขาเทคโนโลยีสารสนเทศ</title>
+<title>ครู Banana | ระบบจัดการเรียนการสอน</title>
 
-<link rel="stylesheet" href="style.css" />
-
+<link rel="stylesheet" href="style.css">
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
 
 </head>
 
+<body>
 
-<body class="banana-bg">
-
-
-<!-- =========================
-NAVBAR
-========================= -->
-
+<!-- NAVBAR -->
 <header class="navbar">
-
 <div class="nav-container">
 
 <div class="logo">
@@ -30,118 +23,35 @@ NAVBAR
 </div>
 
 <nav>
-
 <a href="index.html" class="active">หน้าแรก</a>
 <a href="lessons.html">บทเรียน</a>
-<a href="exam.html" class="active">ข้อสอบ</a>
-<a href="teaching-dashboard.html">แผนการเรียนการสอน</a>
-<a href="contact.html">ติดต่อ</a>
-
+<a href="exam.html">ข้อสอบ</a>
+<a href="teaching.html">แผนการสอน</a>
+<a href="media.html">สื่อการสอน</a>
 </nav>
 
 </div>
-
 </header>
 
 
-
-<!-- =========================
-HERO
-========================= -->
-
+<!-- HERO -->
 <section class="hero">
 
-<div class="slider">
+<img src="https://lh3.googleusercontent.com/d/1AtGAUZ5dEU55ZAzZ0qEfiz2YWNBUhQWo" class="hero-bg">
 
-<div class="slides">
-
-<!-- รูปที่ 1 -->
-<div class="slide active">
-<img src="https://lh3.googleusercontent.com/d/1AtGAUZ5dEU55ZAzZ0qEfiz2YWNBUhQWo">
-</div>
-
-<!-- รูปที่ 2 -->
-<div class="slide">
-<img src="https://drive.google.com/uc?export=view&id=1AtGAUZ5dEU55ZAzZ0qEfiz2YWNBUhQWo/view?usp=sharing">
-</div>
-
-<!-- รูปที่ 3 -->
-<div class="slide">
-<img src="https://drive.google.com/uc?export=view&id=FILE_ID_3">
-</div>
-
-</div>
-
-<!-- overlay text -->
 <div class="hero-overlay">
 
-<h1>ครู Banana 🍌</h1>
+<h1>ยินดีต้อนรับสู่เว็บไซต์</h1>
+<h2>นายนคร ศรีเกษม</h2>
 
 <p>
-เรียนสาขาเทคโนโลยีสารสนเทศ Arduino และ IoT  
-แบบเข้าใจง่าย พร้อมทดลองจริง
+สาขาเทคโนโลยีสารสนเทศ  
+เรียน Arduino / IoT / Electronics แบบเข้าใจง่าย
 </p>
 
 <div class="hero-buttons">
-
-<a href="lessons.html" class="btn-primary">เริ่มเรียนเลย</a>
-<a href="projects.html" class="btn-outline">ดูโครงงาน</a>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-
-<!-- =========================
-FEATURES
-========================= -->
-
-<section class="container lessons">
-
-<h2>ทำไมต้องเรียนกับครู Banana</h2>
-
-<div class="lesson-grid">
-
-
-<div class="lesson-card fade-in">
-
-<h3>⚡ เรียนแบบลงมือทำ</h3>
-
-<p>
-ทดลองต่อวงจรจริง  
-Arduino Sensor และ IoT
-</p>
-
-</div>
-
-
-<div class="lesson-card fade-in">
-
-<h3>📚 บทเรียนเข้าใจง่าย</h3>
-
-<p>
-อธิบายพื้นฐานจนถึงโปรเจกต์  
-เหมาะกับนักเรียนและผู้เริ่มต้น
-</p>
-
-</div>
-
-
-<div class="lesson-card fade-in">
-
-<h3>🚀 ทำโปรเจกต์จริง</h3>
-
-<p>
-Smart Lamp  
-IoT Plant Monitor  
-Sensor Alarm
-</p>
-
+<a href="lessons.html" class="btn-primary">เริ่มเรียน</a>
+<a href="exam.html" class="btn-outline">ทำข้อสอบ</a>
 </div>
 
 </div>
@@ -149,55 +59,35 @@ Sensor Alarm
 </section>
 
 
+<!-- FEATURES -->
+<section class="container">
 
-<!-- =========================
-COURSES
-========================= -->
+<h2 style="text-align:center;">ระบบการเรียนรู้</h2>
 
-<section class="about container">
+<div class="card-grid">
 
-<h2>วิชาที่สอน</h2>
-
-<div class="about-grid">
-
-
-<div class="lesson-card fade-in">
-
-<h3>Arduino</h3>
-
-<p>
-พื้นฐาน Arduino  
-Digital / Analog / Sensor
-</p>
-
+<div class="card">
+<h3>📚 บทเรียน</h3>
+<p>จัดการรายวิชาและสัปดาห์</p>
+<a href="lessons.html" class="btn-primary">เข้าใช้งาน</a>
 </div>
 
-
-<div class="lesson-card fade-in">
-
-<h3>Electronics</h3>
-
-<p>
-วงจรไฟฟ้า  
-Resistor  
-Capacitor  
-Transistor
-</p>
-
+<div class="card">
+<h3>📝 ข้อสอบ</h3>
+<p>กลางภาค / ปลายภาค</p>
+<a href="exam.html" class="btn-primary">ไปสอบ</a>
 </div>
 
+<div class="card">
+<h3>📄 แผนการสอน</h3>
+<p>แนบเอกสาร Google Drive</p>
+<a href="teaching.html" class="btn-primary">ดูแผน</a>
+</div>
 
-<div class="lesson-card fade-in">
-
-<h3>Internet of Things</h3>
-
-<p>
-ESP32  
-Sensor  
-Blynk  
-Smart Home
-</p>
-
+<div class="card">
+<h3>🎥 สื่อการสอน</h3>
+<p>วิดีโอ / เอกสาร / ลิงก์</p>
+<a href="media.html" class="btn-primary">เปิดสื่อ</a>
 </div>
 
 </div>
@@ -205,24 +95,20 @@ Smart Home
 </section>
 
 
+<!-- CTA -->
+<section class="container">
 
-<!-- =========================
-CALL TO ACTION
-========================= -->
+<div class="card" style="text-align:center;">
 
-<section class="hero">
-
-<div class="hero-content fade-in">
-
-<h2>เริ่มต้นเรียนสาขาเทคโนโลยีสารสนเทศวันนี้</h2>
+<h2>เริ่มต้นใช้งาน Banana Classroom</h2>
 
 <p>
-เปิดโลกเทคโนโลยีด้วย Arduino และ IoT  
-พร้อมโครงงานที่ใช้ได้จริง
+ระบบจัดการเรียนการสอนครบวงจร  
+ใช้งานง่าย เชื่อมทุกหน้า
 </p>
 
 <a href="lessons.html" class="btn-primary">
-ไปที่บทเรียน
+เริ่มต้นใช้งาน
 </a>
 
 </div>
@@ -230,21 +116,10 @@ CALL TO ACTION
 </section>
 
 
-
-<!-- =========================
-FOOTER
-========================= -->
-
+<!-- FOOTER -->
 <footer class="footer">
-
-© 2025 ครู Banana สอนสาขาเทคโนโลยีสารสนเทศ  
-เรียนสาขาเทคโนโลยีสารสนเทศให้สนุกเหมือนปอกกล้วยเข้าปาก 🍌
-
+© 2025 ครู Banana 🍌
 </footer>
 
-
-
-<script src="script.js"></script>
-<script src="dashboard.js"></script>
 </body>
 </html>

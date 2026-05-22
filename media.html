@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สื่อการสอน | ครู Banana</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        ครู <span>Banana</span>
+      </div>
+
+      <nav>
+        <a href="index.html">หน้าแรก</a>
+        <a href="lessons.html">บทเรียน</a>
+        <a href="exam.html">ข้อสอบ</a>
+        <a href="teaching.html">แผนการสอน</a>
+        <a href="media.html" class="active">สื่อการสอน</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- PAGE -->
+  <section class="container">
+
+    <div class="page-header">
+      <h1>🎥 สื่อการสอน</h1>
+      <p>เพิ่มลิงก์วิดีโอ เอกสาร และสื่อประกอบการเรียน</p>
+    </div>
+
+    <div class="action-bar">
+      <select id="courseSelect"></select>
+      <input id="mediaTitle" type="text" placeholder="ชื่อสื่อ เช่น วิดีโอแนะนำ Arduino">
+      <select id="mediaType">
+        <option value="วิดีโอ">วิดีโอ</option>
+        <option value="เอกสาร">เอกสาร</option>
+        <option value="Google Drive">Google Drive</option>
+        <option value="เว็บไซต์">เว็บไซต์</option>
+      </select>
+      <input id="mediaLink" type="text" placeholder="ลิงก์สื่อการสอน">
+      <button class="btn-primary" onclick="addMedia()">บันทึก</button>
+    </div>
+
+    <div id="mediaList" class="card-grid"></div>
+
+  </section>
+
+  <script src="app.js"></script>
+  <script>
+    let mediaItems = JSON.parse(localStorage.getItem("mediaItems")) || [];
+
+    function loadCourseOptions() {
+      const select = document.getElementById("courseSelect");
+      select.innerHTML = "";
+
+      if (courses.length === 0) {
+        select.innerHTML = `<option value="">ยังไม่มีรายวิชา</option>`;
+        return;
+      }
+
+      courses.forEach(course => {
+        select.innerHTML += `
+          <option value="${course.code} - ${course.name}">
+            ${course.code} - ${course.name}
+          </option>
+        `;
+      });
+    }
+
+    function addMedia() {
+      const course = document.getElementById("courseSelect").value;
+      const title = document.getElementById("mediaTitle").value.trim();
+      const type = document.getElementById("mediaType").value;
+      const link = document.getElementById("mediaLink").value.trim();
+
+      if (!course || !title || !type || !link) {
+        alert("กรุณากรอกข้อมูลให้ครบ");
+        return;
+      }
+
+      mediaItems.push({ course, title, type, link });
+      localStorage.setItem("mediaItems", JSON.stringify(mediaItems));
+
+      document.getElementById("mediaTitle").value = "";
+      document.getElementById("mediaLink").value = "";
+
+      renderMedia();
+    }
+
+    function deleteMedia(index) {
+      if (!confirm("ต้องการลบสื่อนี้หรือไม่")) return;
+      mediaItems.splice(index, 1);
+      localStorage.setItem("mediaItems", JSON.stringify(mediaItems));
+      renderMedia();
+    }
+
+    function renderMedia() {
+      const list = document.getElementById("mediaList");
+      let html = "";
+
+      if (mediaItems.length === 0) {
+        html = `<div class="empty">ยังไม่มีสื่อการสอน</div>`;
+      } else {
+        mediaItems.forEach((item, index) => {
+          html += `
+            <div class="card">
+              <div class="card-title">${item.course}</div>
+              <div class="tag">${item.type}</div>
+              <p style="margin-top:10px;">${item.title}</p>
+
+              <div class="btn-group">
+                <a href="${item.link}" target="_blank" class="btn-primary">เปิดสื่อ</a>
+                <button class="btn-delete" onclick="deleteMedia(${index})">ลบ</button>
+              </div>
+            </div>
+          `;
+        });
+      }
+
+      list.innerHTML = html;
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadCourseOptions();
+      renderMedia();
+    });
+  </script>
+
+</body>
+</html>

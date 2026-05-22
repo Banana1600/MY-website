@@ -1,102 +1,129 @@
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ระบบข้อสอบ | ครู Banana</title>
-
-<link rel="stylesheet" href="style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ข้อสอบ | ครู Banana</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
+<body>
 
-<body class="banana-bg">
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        ครู <span>Banana</span>
+      </div>
 
-<header class="navbar">
+      <nav>
+        <a href="index.html">หน้าแรก</a>
+        <a href="lessons.html">บทเรียน</a>
+        <a href="exam.html" class="active">ข้อสอบ</a>
+        <a href="teaching.html">แผนการสอน</a>
+        <a href="media.html">สื่อการสอน</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="nav-container">
+  <!-- PAGE -->
+  <section class="container">
 
-<div class="logo">ครู <span>Banana</span></div>
+    <div class="page-header">
+      <h1>📝 ระบบข้อสอบ</h1>
+      <p>จัดการข้อสอบกลางภาคและปลายภาค</p>
+    </div>
 
-<nav>
+    <div class="action-bar">
+      <select id="courseSelect"></select>
 
-<a href="index.html">หน้าแรก</a>
-<a href="lessons.html">บทเรียน</a>
-<a href="exam.html" class="active">ข้อสอบ</a>
-<a href="teaching-dashboard.html">แผนการสอน</a>
+      <select id="examType">
+        <option value="กลางภาค">กลางภาค</option>
+        <option value="ปลายภาค">ปลายภาค</option>
+      </select>
 
-</nav>
+      <input id="link" placeholder="ลิงก์ข้อสอบ Google Drive">
 
-</div>
+      <button class="btn-primary" onclick="addExam()">บันทึก</button>
+    </div>
 
-</header>
+    <div id="list" class="card-grid"></div>
 
+  </section>
 
-<section class="container lessons">
+  <script src="app.js"></script>
+  <script>
+    let exams = JSON.parse(localStorage.getItem("exams")) || [];
 
-<h1>📝 ระบบข้อสอบ</h1>
+    function loadCourses() {
+      const courseSelect = document.getElementById("courseSelect");
+      courseSelect.innerHTML = "";
 
-<p class="intro">
+      if (courses.length === 0) {
+        courseSelect.innerHTML = `<option value="">ยังไม่มีรายวิชา</option>`;
+        return;
+      }
 
-จัดการข้อสอบกลางภาค และปลายภาค
+      courses.forEach(c => {
+        courseSelect.innerHTML += `<option value="${c.code} - ${c.name}">${c.code} - ${c.name}</option>`;
+      });
+    }
 
-</p>
+    function addExam() {
+      const course = document.getElementById("courseSelect").value;
+      const type = document.getElementById("examType").value;
+      const link = document.getElementById("link").value.trim();
 
-<button class="btn-primary" onclick="addExamCourse()">
-➕ เพิ่มรายวิชา
-</button>
+      if (!course || !link) {
+        alert("กรุณาเลือกวิชาและใส่ลิงก์ข้อสอบ");
+        return;
+      }
 
-<div id="examContainer" class="course-grid"></div>
+      exams.push({ course, type, link });
+      localStorage.setItem("exams", JSON.stringify(exams));
 
-</section>
+      document.getElementById("link").value = "";
+      renderExam();
+    }
 
+    function deleteExam(index) {
+      if (!confirm("ต้องการลบข้อสอบนี้หรือไม่")) return;
+      exams.splice(index, 1);
+      localStorage.setItem("exams", JSON.stringify(exams));
+      renderExam();
+    }
 
+    function renderExam() {
+      const list = document.getElementById("list");
+      let html = "";
 
-<!-- Modal เพิ่มข้อสอบ -->
+      if (exams.length === 0) {
+        html = `<div class="empty">ยังไม่มีข้อสอบ</div>`;
+      } else {
+        exams.forEach((e, index) => {
+          html += `
+            <div class="card">
+              <div class="card-title">${e.course}</div>
+              <div class="tag">${e.type}</div>
 
-<div id="examModal" class="modal">
+              <div class="btn-group">
+                <a href="${e.link}" target="_blank" class="btn-primary">เปิดข้อสอบ</a>
+                <button class="btn-delete" onclick="deleteExam(${index})">ลบ</button>
+              </div>
+            </div>
+          `;
+        });
+      }
 
-<div class="modal-content">
+      list.innerHTML = html;
+    }
 
-<h3>เพิ่มข้อสอบ</h3>
-
-<select id="examType">
-
-<option value="mid">กลางภาค</option>
-<option value="final">ปลายภาค</option>
-
-</select>
-
-<input id="examTitle" placeholder="ชื่อข้อสอบ">
-
-<input id="examDrive" placeholder="ลิงก์ Google Drive">
-
-<div class="modal-buttons">
-
-<button onclick="saveExam()" class="btn-primary">
-บันทึก
-</button>
-
-<button onclick="closeExamModal()" class="btn-outline">
-ยกเลิก
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-
-<script src="exam.js"></script>
+    document.addEventListener("DOMContentLoaded", () => {
+      loadCourses();
+      renderExam();
+    });
+  </script>
 
 </body>
 </html>
